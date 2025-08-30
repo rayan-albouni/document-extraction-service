@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/DocumentExtractionService.sln",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "func: host start",
+            "type": "shell",
+            "command": "func",
+            "args": ["start"],
+            "options": {
+                "cwd": "${workspaceFolder}/src/DocumentExtractionService.Functions"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "azure-functions",
+                "pattern": [
+                    {
+                        "regexp": "^.*$",
+                        "file": 1,
+                        "location": 2,
+                        "message": 3
+                    }
+                ],
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Host lock lease acquired by instance ID.*$",
+                    "endsPattern": "^.*Job host started.*$"
+                }
+            },
+            "group": "build"
+        }
+    ]
+}
