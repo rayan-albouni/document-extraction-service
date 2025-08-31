@@ -27,11 +27,11 @@ public class DocumentIntelligenceService : IDocumentIntelligenceService
 
     public async Task<DocumentExtractedMessage> ExtractDocumentDataAsync(DocumentExtractionRequest request, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Starting document analysis for DocumentId: {DocumentId}, DocumentType: {DocumentType}", 
+        _logger.LogInformation("Starting document analysis for DocumentId: {DocumentId}, DocumentType: {DocumentType}",
             request.DocumentId, request.DocumentType);
 
         var modelConfig = GetModelConfiguration(request.DocumentType);
-        
+
         var operation = await _client.AnalyzeDocumentFromUriAsync(
             WaitUntil.Completed,
             modelConfig.ModelId,
@@ -47,6 +47,7 @@ public class DocumentIntelligenceService : IDocumentIntelligenceService
         {
             DocumentId = request.DocumentId,
             TenantId = request.TenantId,
+            DocumentType = request.DocumentType,
             ParsedData = parsedData
         };
     }
